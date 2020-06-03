@@ -1,8 +1,6 @@
 package com.unla.grupo1oo22020.models;
 
-
 import java.time.LocalDate;
-
 
 public class SolicitudStockModel {
 	private long idSolicitudStock;
@@ -10,30 +8,29 @@ public class SolicitudStockModel {
 	private ProductoModel producto;
 	private int cantidad;
 	private boolean aceptado;
-	//private EmpleadoModel empleado;
+	// private EmpleadoModel empleado;
 	private LocalModel local;
-	
+
 	public SolicitudStockModel() {
 
 	}
 
-	public SolicitudStockModel(long idSolicitudStock, LocalDate fechaSolicitudStock, ProductoModel producto, int cantidad,
-			LocalModel local) {
+	public SolicitudStockModel(long idSolicitudStock, LocalDate fechaSolicitudStock, ProductoModel producto,
+			int cantidad, boolean aceptado, LocalModel local) {
 		super();
 		this.idSolicitudStock = idSolicitudStock;
 		this.fechaSolicitudStock = fechaSolicitudStock;
 		this.producto = producto;
 		this.cantidad = cantidad;
-		//this.empleado = empleado;
+		this.aceptado = aceptado;
 		this.local = local;
-		this.aceptado = false;
 	}
-	
+
 	public SolicitudStockModel(int cantidad, ProductoModel producto) {
 
 		this.cantidad = cantidad;
-		this.aceptado=false;
-		this.producto= producto;
+		this.aceptado = false;
+		this.producto = producto;
 	}
 
 	public long getIdSolicitudStock() {
@@ -83,7 +80,6 @@ public class SolicitudStockModel {
 	public void setLocal(LocalModel local) {
 		this.local = local;
 	}
-	
-	
 
 }
+
