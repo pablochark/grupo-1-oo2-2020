@@ -1,4 +1,3 @@
-/*
 package com.unla.grupo1oo22020.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.unla.grupo1oo22020.helpers.ViewRouteHelpers;
+import com.unla.grupo1oo22020.models.PedidoModel;
 import com.unla.grupo1oo22020.models.SolicitudStockModel;
 import com.unla.grupo1oo22020.services.ILocalService;
+import com.unla.grupo1oo22020.services.IPedidoService;
 import com.unla.grupo1oo22020.services.IProductoService;
 import com.unla.grupo1oo22020.services.ISolicitudStockService;
 
@@ -26,15 +27,19 @@ public class SolicitudStockController {
 
 	@Autowired
 	@Qualifier("solicitudStockService")
-	private ISolicitudStockService pedidoService;
+	private ISolicitudStockService solicitudStockService;
 	
 	@Autowired
 	@Qualifier("productoService")
 	private IProductoService productoService;
 	
 	@Autowired
-	@Qualifier("sucursalService")
+	@Qualifier("localService")
 	private ILocalService localService;
+	
+	@Autowired
+	@Qualifier("pedidoService")
+	private IPedidoService pedidoService;
 	
 	@GetMapping("")
 	public ModelAndView index() {
@@ -49,9 +54,8 @@ public class SolicitudStockController {
 	
 	@GetMapping("/new")
 	public ModelAndView create() {
-		ModelAndView mAV = new ModelAndView(ViewRouteHelpers.SOLICITUDSTOCK_STOCK);
+		ModelAndView mAV = new ModelAndView(ViewRouteHelpers.SOLICITUDSTOCK_NEW);
 		mAV.addObject("solicitudStock", new SolicitudStockModel());
-		mAV.addObject("venta", ventaService.getAll());
 		mAV.addObject("local", localService.getAll());
 		mAV.addObject("producto", productoService.getAll());
 		return mAV;
@@ -65,16 +69,15 @@ public class SolicitudStockController {
 			@RequestParam(value = "idProducto", required = false) long idProducto,
 			@RequestParam(value = "cantidad", required = false) int cantidad) {
 		
-		ventaService.generarPedidoConStockPropio(ventaService.findById(idVenta), productoService.findById(idProducto), sucursalService.findById(idSucursal), cantidad);
+		//ventaService.generarPedidoConStockPropio(ventaService.findById(idVenta), productoService.findByIdProducto(idProducto), sucursalService.findById(idSucursal), cantidad);
 		
-		return new RedirectView(ViewRouteHelper.PEDIDO_ROOT);
+		return new RedirectView(ViewRouteHelpers.PEDIDO_ROOT);
 	}
 	
 	@GetMapping("/{id}")
 	public ModelAndView get(@PathVariable("id") long id) {
-		
-		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PEDIDO_UPDATE);
-		mAV.addObject("pedido", pedidoService.findById(id));
+		ModelAndView mAV = new ModelAndView(ViewRouteHelpers.PEDIDO_UPDATE);
+		mAV.addObject("pedido", pedidoService.findByIdPedido(id));
 		mAV.addObject("productos", productoService.getAll());
 		return mAV;
 		
@@ -84,13 +87,13 @@ public class SolicitudStockController {
 	public RedirectView update(@ModelAttribute("pedido") PedidoModel pedidoModel) {
 		
 		pedidoService.update(pedidoModel);
-		return new RedirectView(ViewRouteHelper.PEDIDO_ROOT);
+		return new RedirectView(ViewRouteHelpers.PEDIDO_ROOT);
 	}
 	
 	@PostMapping("/delete/{id}")
 	public RedirectView delete(@PathVariable("id")long id) {
 		pedidoService.remove(id);
-		return new RedirectView(ViewRouteHelper.PEDIDO_ROOT);
+		return new RedirectView(ViewRouteHelpers.PEDIDO_ROOT);
 	}
 }
-*/
+
