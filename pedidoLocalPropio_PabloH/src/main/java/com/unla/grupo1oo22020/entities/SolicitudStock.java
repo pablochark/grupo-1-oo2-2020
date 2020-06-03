@@ -12,44 +12,48 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
 import com.unla.grupo1oo22020.models.ProductoModel;
 
 @Entity
-@Table(name="solicitudStock")
+@Table(name = "solicitudStock")
 public class SolicitudStock {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idSolicitudStock;
-	
+
 	private LocalDate fechaSolicitudStock;
-	
+
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "idProducto", referencedColumnName = "idProducto")
 	private Producto producto;
-	
+
 	@Column
 	private int cantidad;
-	
+
 	@Column
 	private boolean aceptado;
-	
-	
-	
-	public SolicitudStock() {}
+
+	@OneToOne(cascade=CascadeType.MERGE)
+	private Local local;
+
+	public SolicitudStock() {
+	}
 
 	public SolicitudStock(int cantidad, Producto producto) {
 		this.cantidad = cantidad;
 		this.aceptado = false;
 		this.producto = producto;
 	}
-	
-	public SolicitudStock(long idSolicitudStock, int cantidad, Producto producto) {
+
+	public SolicitudStock(long idSolicitudStock, LocalDate fechaSolicitudStock, Producto producto, int cantidad,
+			Local local) {
 		this.idSolicitudStock = idSolicitudStock;
+		this.fechaSolicitudStock = fechaSolicitudStock;
+		this.producto = producto;
 		this.cantidad = cantidad;
 		this.aceptado = false;
-		this.producto = producto;
+		this.local = local;
 	}
 
 	public long getIdSolicitudStock() {
@@ -91,10 +95,13 @@ public class SolicitudStock {
 	public void setAceptado(boolean aceptado) {
 		this.aceptado = aceptado;
 	}
-	
-	
 
-	
-	
-	
+	public Local getLocal() {
+		return local;
+	}
+
+	public void setLocal(Local local) {
+		this.local = local;
+	}
+
 }
